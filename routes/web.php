@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\MovieController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +14,19 @@
 |
 */
 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/', 'MovieController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
+    Route::get('/movies/reorder',[App\Http\Controllers\MovieController::class, 'reorder'])->name('movies.reorder');
+    Route::put('movie/up/{movie}', [App\Http\Controllers\MovieController::class, 'moveUp'])->name('movie.up');
+    Route::put('movie/down/{movie}', [App\Http\Controllers\MovieController::class, 'moveDown'])->name('movie.down');
+    Route::resource('movies', MovieController::class);
+});
 
-Route::resource('movies', 'MovieController');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
