@@ -8,6 +8,7 @@
 
     </x-slot>
 
+    <div class="m-5">
     <h1 class="text-4xl bold text-center">Movie List</h1>
     @foreach ($categories as $cat)
         <h2 class="text-3xl bold">{{$cat->name}}</h2>
@@ -50,4 +51,5 @@
             @endforeach
             </table>
         @endforeach
+</div>
 </x-app-layout>
